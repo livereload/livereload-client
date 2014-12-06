@@ -5,30 +5,31 @@ Handles the client side of the [LiveReload protocol](http://go.livereload.com/pr
 
 ## Synopsis
 
-    PROTOCOLS =
-      monitoring: [LRClient.protocols.MONITORING_7]
-      connCheck:  [LRClient.protocols.CONN_CHECK_1]
+```coffeescript
+PROTOCOLS =
+  monitoring: [LRClient.protocols.MONITORING_7]
+  connCheck:  [LRClient.protocols.CONN_CHECK_1]
 
-    client = new LRClient
-      supportedProtocols: PROTOCOLS
-      WebSocket: WebSocket || MozWebSocket
+client = new LRClient
+  supportedProtocols: PROTOCOLS
+  WebSocket: WebSocket || MozWebSocket
 
-      id: "com.mycompany.myapp"   # unique reverse-dns style id of your app
-      name: "MyApp"               # user-friendly name of your app
-      version: "1.0"              # version number of your app
+  id: "com.mycompany.myapp"   # unique reverse-dns style id of your app
+  name: "MyApp"               # user-friendly name of your app
+  version: "1.0"              # version number of your app
 
-    client.on 'connected', (negotiatedProtocols) ->
-      console.log "Monitoring protocol version: %d", negotiatedProtocols.monitoring
-      console.log "Connection check protocol version: %d", negotiatedProtocols.connCheck
+client.on 'connected', (negotiatedProtocols) ->
+  console.log "Monitoring protocol version: %d", negotiatedProtocols.monitoring
+  console.log "Connection check protocol version: %d", negotiatedProtocols.connCheck
 
-      if negotiatedProtocols.connCheck >= 1
-        client.send { command: 'ping', token: 'test' }
+  if negotiatedProtocols.connCheck >= 1
+    client.send { command: 'ping', token: 'test' }
 
-    client.on 'command', (message) ->
-      console.log "Received command %s with data %j", message.command, message
+client.on 'command', (message) ->
+  console.log "Received command %s with data %j", message.command, message
 
-    client.open()
-
+client.open()
+```
 
 ## Installation
 
